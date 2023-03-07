@@ -1,11 +1,19 @@
 import { useState } from 'react'
 
 import './App.css'
-import Main from '../components/Main'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer';
+import Home from './components/Home';
+import "./fonts/Roboto-Medium.ttf"
 
 function App() {
   return (
-    <Main />
+    <div >
+      <Navbar />
+      <Home />
+      <Footer />
+    </div>
+
   );
 }
 

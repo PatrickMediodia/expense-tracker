@@ -1,0 +1,6 @@
+@font-face {
+    font-family: "Roboto";
+    src: 
+        local("Roboto-Medium"), 
+        url("./fonts/Roboto-Medium.ttf") format("truetype");
+}

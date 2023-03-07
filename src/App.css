@@ -1,0 +1,87 @@
+@font-face {
+    font-family: roboto;
+    src: url("./fonts/Roboto-Medium.ttf");
+}
+
+* {
+    margin: 0;
+    padding: 0; 
+    font-family: roboto;
+}
+
+/* Navbar */
+.nav {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px lightgray solid;
+    box-shadow: 0 2px 1px -2px gray;
+}
+
+.nav-img {
+    width: 25px;
+    margin-right:10px;
+}
+
+.nav-header {
+    margin-right: auto;
+}
+
+.nav-items > li {
+    list-style-type: none;
+    display: inline-flex;
+    padding: 0px 15px;
+}
+
+/* Home */
+
+.month {
+    margin: auto;
+    max-width: 1140px;
+}
+
+.month-header {
+    display: flex;
+    padding: 15px;
+}
+
+.month-text {
+    margin-right: auto;
+}
+
+.add-expense {
+    background-color: #4CAF50;
+    border: none;
+    color:white;
+    padding: 15px;
+    border-radius: 35px;
+}
+
+.day-header {
+    padding: 15px;
+}
+
+.records > div{
+    margin: 3px 15px;
+    padding: 15px 20px;
+    border: 1px lightgray solid;
+}
+
+.record {
+    display: flex;
+    margin-right: auto;
+}
+
+.record > p{
+    margin-right: auto;
+}
+
+/* Footer */
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding:15px;
+    background-color: rgb(0,255,127);
+}
