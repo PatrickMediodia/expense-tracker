@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ExpenseDay from "./ExpenseDay";
 import AddIcon from "../assets/addIcon.svg";
 import CloseIcon from "../assets/closeIcon.svg";
+import Button from './Button';
 
 const modalStyle = {
   content: {
@@ -44,7 +45,7 @@ function ExpenseMonth({ month, expenses }) {
   return (
     <>
       <div className="month">
-
+        
         {/* Month header*/}
         <div className="month-header">
           <h2 className="month-text">{month}</h2>
@@ -54,41 +55,42 @@ function ExpenseMonth({ month, expenses }) {
           </button>
         </div>
 
+        {/* Add expense modal form */}
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           style={modalStyle}
           contentLabel="Example Modal"
         >
-          <div className='modal-header'>
-            <h2>Add Expense</h2>
-            <img src={CloseIcon} className="close-icon" onClick={closeModal}/>
-          </div>
-          <hr/>
-          <form className="add-expense-form">
-            <label class="form-title">Title:</label>
-            <input className="input-field" name="title" id="title"/>
-            <label class="form-title">Price:</label>
-            <input className="input-field" name="price" id="price"/>
-            <label class="form-title">Date:</label>
-            <DatePicker 
-              className="input-field" 
-              selected={startDate} 
-              onChange={(date) => setStartDate(date)} 
-            />
-            <label class="form-title">Category:</label>
-            <select className="dropdown" name="category-dropdown">
-              {
-                categories.map(category => {
-                  return <option value={category}>{category}</option>
-                })
-              }
-            </select>
-          </form>
-          <div className="center-button">
-            <button className="add-expense-form-button" onClick={closeModal}>
-              <p className="add-text">Add Expense Record</p>
-            </button>
+          <div class="modal">
+            <div className='modal-header'>
+              <h2>Add Expense</h2>
+              <img src={CloseIcon} className="close-icon" onClick={closeModal}/>
+            </div>
+            <hr/>
+            <form className="add-expense-form">
+              <label class="form-title">Title:</label>
+              <input className="input-field" name="title" id="title"/>
+              <label class="form-title">Price:</label>
+              <input className="input-field" name="price" id="price"/>
+              <label class="form-title">Date:</label>
+              <DatePicker 
+                className="input-field" 
+                selected={startDate} 
+                onChange={(date) => setStartDate(date)} 
+              />
+              <label class="form-title">Category:</label>
+              <select className="dropdown" name="category-dropdown">
+                {
+                  categories.map(category => {
+                    return <option value={category}>{category}</option>
+                  })
+                }
+              </select>
+            </form>
+            <div className="center-button">
+              <Button method={closeModal} text="Add Expense" color="#4CAF50" />
+            </div>
           </div>
         </Modal> 
         

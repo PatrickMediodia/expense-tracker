@@ -34,7 +34,6 @@
 }
 
 /* Home */
-
 .month {
     margin: auto;
     max-width: 1140px;
@@ -59,19 +58,20 @@
     align-items: center;
 }
 
-.add-expense-form-button {
-    background-color: #4CAF50;
-    border: none;
-    color:white;
-    padding: 12px 18px;
-    border-radius: 35px;
-    display: flex;
-    align-items: center;
-}
-
 .add-icon {
     height:20px;
     margin-right:7px;
+}
+
+/* Modal */
+.modal {
+    padding: 5px 20px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 0px;
 }
 
 .close-button {
@@ -84,6 +84,12 @@
     align-items: center;
 }
 
+.close-icon {
+    width: 12px;
+    margin-left: auto;
+    margin-right: 10px;;
+}
+
 .add-expense-form {
     display: grid;
 }
@@ -91,21 +97,33 @@
 .center-button {
     display: flex;
     justify-content: center;
-    margin: 15px;
+    gap: 10px;
+    margin-top: 20px;
 }
 
-.modal-header {
-    display: flex;
-    align-items: center;
-    padding: 10px 0px;
+/* Modal Form */
+.dropdown {
+    margin: 5px 0px;
+    width: 323px;
+    height: 30px;
+    border-radius: 13px;
+    padding: 0px 10px;
+    border: 1px solid black;
 }
 
-.close-icon {
-    width: 15px;
-    margin-left: auto;
-    margin-right: 10px;;
+.input-field {
+    margin: 5px 0px;
+    width: 300px;
+    height: 30px;
+    border-radius: 13px;
+    padding: 0px 10px;
 }
 
+.form-title {
+    margin-top: 10px;;
+}
+
+/* Records */
 .day-header {
     padding: 15px;
 }
@@ -126,20 +144,6 @@
 
 .delete-icon {
     height: 20px    ;
-}
-
-
-/* Form */
-.dropdown,
-.input-field {
-    margin: 5px 0px;
-    width: 250px;
-    height: 25px;
-    border-radius: 5px;
-}
-
-.form-title {
-    margin-top: 10px;;
 }
 
 /* Footer */
