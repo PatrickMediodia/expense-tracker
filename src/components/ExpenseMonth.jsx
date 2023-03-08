@@ -1,4 +1,5 @@
 import ExpenseDay from "./ExpenseDay";
+import AddIcon from "../assets/addIcon.svg";
 
 function ExpenseMonth({ month, expenses }) {
   return (
@@ -8,7 +9,10 @@ function ExpenseMonth({ month, expenses }) {
         {/* Month header*/}
         <div className="month-header">
           <h2 className="month-text">{month}</h2>
-          <button className="add-expense">Add Expense</button>
+          <button className="add-expense-button">
+            <img src={AddIcon} className="add-icon"/>
+            <p className="add-text">Add Expense</p>
+          </button>
         </div>
 
         {/* Month body*/}
