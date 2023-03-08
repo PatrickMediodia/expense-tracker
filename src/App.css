@@ -64,6 +64,20 @@
     margin-right:7px;
 }
 
+.close-button {
+    background-color: rgb(233, 116, 81);
+    border: none;
+    color:white;
+    padding: 10px;
+    border-radius: 35px;
+    display: flex;
+    align-items: center;
+}
+
+.add-expense-form {
+    display: grid;
+}
+
 .day-header {
     padding: 15px;
 }
@@ -76,12 +90,26 @@
 
 .record {
     display: flex;
-    margin-right: auto;
 }
 
 .record > p{
     margin-right: auto;
 }
+
+.delete-icon {
+    height: 20px    ;
+}
+
+
+/* Form */
+.dropdown,
+.input-field {
+    margin: 5px 0px;
+    width: 250px;
+    height: 25px;
+    border-radius: 5px;
+}
+
 
 /* Footer */
 .footer {

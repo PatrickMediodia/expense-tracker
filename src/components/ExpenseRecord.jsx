@@ -1,3 +1,5 @@
+import DeleteIcon from "../assets/deleteIcon.svg";
+
 function ExpenseRecord(props) {
   return (
     <>
@@ -5,6 +7,7 @@ function ExpenseRecord(props) {
         <p>Title: {props.record.title}</p>
         <p>Price: {props.record.price}</p>
         <p>Category: {props.record.category}</p>
+        <img src={DeleteIcon} className="delete-icon"/>
       </div>
     </>
   );
