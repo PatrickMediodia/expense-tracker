@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import ExpenseDay from "./ExpenseDay";
 import AddIcon from "../assets/addIcon.svg";
+import CloseIcon from "../assets/closeIcon.svg";
 
 const modalStyle = {
   content: {
@@ -19,7 +20,7 @@ const modalStyle = {
 
 function ExpenseMonth({ month, expenses }) {
   //date picker initial date
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = React.useState(new Date());
 
   //list of categories
   let categories = [
@@ -59,16 +60,23 @@ function ExpenseMonth({ month, expenses }) {
           style={modalStyle}
           contentLabel="Example Modal"
         >
-          <h2>Add Expense</h2>
+          <div className='modal-header'>
+            <h2>Add Expense</h2>
+            <img src={CloseIcon} className="close-icon" onClick={closeModal}/>
+          </div>
           <hr/>
           <form className="add-expense-form">
-            Title:
+            <label class="form-title">Title:</label>
             <input className="input-field" name="title" id="title"/>
-            Price:
+            <label class="form-title">Price:</label>
             <input className="input-field" name="price" id="price"/>
-            Date:
-            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-            Category:
+            <label class="form-title">Date:</label>
+            <DatePicker 
+              className="input-field" 
+              selected={startDate} 
+              onChange={(date) => setStartDate(date)} 
+            />
+            <label class="form-title">Category:</label>
             <select className="dropdown" name="category-dropdown">
               {
                 categories.map(category => {
@@ -77,9 +85,11 @@ function ExpenseMonth({ month, expenses }) {
               }
             </select>
           </form>
-          <button className="close-button" onClick={closeModal}>
-            <p className="add-text">Close</p>
-          </button>
+          <div className="center-button">
+            <button className="add-expense-form-button" onClick={closeModal}>
+              <p className="add-text">Add Expense Record</p>
+            </button>
+          </div>
         </Modal> 
         
         {/* Month body*/}
