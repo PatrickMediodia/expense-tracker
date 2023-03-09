@@ -1,7 +1,5 @@
 # Expense Tracker
 
----
-
 **Developed by: Patrick Mediodia**\
 Started on: 03/08/2023\
 Hosted on Netlify: https://expense-tracker-ocr.netlify.app/
