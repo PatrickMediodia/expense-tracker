@@ -7,7 +7,7 @@ function Button(props) {
     border: "none",
     margin: "0"
   }
-
+  
   return (
     <button style={buttonStyle} onClick={props.method}>
       {props.text}
