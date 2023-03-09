@@ -13,14 +13,14 @@ function ExpenseMonth({ month, expenses }) {
   function closeModal() {
     setIsOpen(false);
   }
-  
+
   return (
     <>
       <div className="month">
         
         {/* Month header*/}
         <div className="month-header">
-          <h2 className="month-text">{month}</h2>
+          <h1 className="month-text">{month}</h1>
           <button 
             className="add-expense-button" 
             onClick={openModal}

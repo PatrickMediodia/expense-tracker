@@ -30,9 +30,18 @@ function ExpenseRecord(props) {
   return (
     <>
       <div className="record">
-        <p>Title: {props.record.title}</p>
-        <p>Price: {props.record.price}</p>
-        <p>Category: {props.record.category}</p>        
+        <p>
+          <b>Title:&nbsp;</b> 
+          {props.record.title}
+        </p>
+        <p>
+          <b>Price:&nbsp;</b> 
+          {props.record.price}
+        </p>
+        <p>
+          <b>Category:&nbsp;</b> 
+          {props.record.category}
+        </p>        
         <img 
           src={EditIcon} 
           className="edit-icon" 
@@ -44,7 +53,7 @@ function ExpenseRecord(props) {
           onClick={openModalDelete}
         />
       </div>
-
+      
       <ExpenseModal 
         title="Edit Expense" 
         modalState={editIsOpen} 

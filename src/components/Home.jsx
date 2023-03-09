@@ -5,11 +5,11 @@ function Home() {
     "month" : "March",
     "expenses" : [
       {
-        date : "03/8/2023",
+        date : "03/9/2023",
         records : [ 
           {
-            id : 1,
-            title : "Expense 1",
+            id : 3,
+            title : "Expense 3",
             price : "100",
             category : "Leisure",
           },          
@@ -22,11 +22,11 @@ function Home() {
         ]
       },
       {
-        date : "03/10/2023",
+        date : "03/8/2023",
         records : [ 
           {
-            id : 3,
-            title : "Expense 3",
+            id : 1,
+            title : "Expense 1",
             price : "100",
             category : "Health",
           }
