@@ -24,12 +24,11 @@ const categories = [
   "Personal"
 ];
 
-function AddExpenseModal({ modalState, modalCloseFunction }) {
+function ExpenseModal({ title, modalState, modalCloseFunction }) {
   //date picker initial date
   const [startDate, setStartDate] = React.useState(new Date());
 
   return (
-    <>
       <Modal
         isOpen={modalState}
         onRequestClose={modalCloseFunction}
@@ -38,15 +37,28 @@ function AddExpenseModal({ modalState, modalCloseFunction }) {
       >
         <div class="modal">
           <div className='modal-header'>
-            <h2>Add Expense</h2>
-            <img src={CloseIcon} className="close-icon" onClick={modalCloseFunction}/>
+            <h2>{title}</h2>
+            <img 
+              src={CloseIcon} 
+              className="close-icon" 
+              onClick={modalCloseFunction}
+            />
           </div>
           <hr/>
-          <form className="add-expense-form">
+
+          <form className="expense-form">
             <label class="form-title">Title:</label>
-            <input className="input-field" name="title" id="title"/>
+            <input 
+              className="input-field" 
+              name="title" 
+              id="title"
+            />
             <label class="form-title">Price:</label>
-            <input className="input-field" name="price" id="price"/>
+            <input 
+              className="input-field" 
+              name="price" 
+              id="price"
+            />
             <label class="form-title">Date:</label>
             <DatePicker 
               className="input-field" 
@@ -55,16 +67,24 @@ function AddExpenseModal({ modalState, modalCloseFunction }) {
             />
             <label class="form-title">Category:</label>
             <select className="dropdown" name="category-dropdown">
-              { categories.map(category => <option value={category}>{category}</option>) }
+              { 
+                categories.map(category => 
+                  <option value={category}>{category}</option>
+                ) 
+              }
             </select>
           </form>
+
           <div className="center-button">
-            <Button method={modalCloseFunction} text="Add Expense" color="#4CAF50" />
+            <Button 
+              method={modalCloseFunction} 
+              text="Add Expense" 
+              color="#4CAF50"
+            />
           </div>
         </div>
       </Modal> 
-    </>
   );
 }
 
-export default AddExpenseModal;
+export default ExpenseModal;

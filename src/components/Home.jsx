@@ -1,4 +1,4 @@
-import ExpenseMonth from '../components/ExpenseMonth';
+import Month from '../components/Month';
 
 function Home() {
   let data = {
@@ -36,7 +36,7 @@ function Home() {
   }
 
   return (
-    <ExpenseMonth month={data.month} expenses={data.expenses}/>
+    <Month month={data.month} expenses={data.expenses}/>
   );
 }
 

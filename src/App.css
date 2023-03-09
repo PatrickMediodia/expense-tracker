@@ -90,7 +90,7 @@
     margin-right: 10px;;
 }
 
-.add-expense-form {
+.expense-form {
     display: grid;
 }
 
@@ -142,8 +142,14 @@
     margin-right: auto;
 }
 
+.edit-icon {
+    width: 20px;
+    margin-left: auto;
+    margin-right: 20px;;
+}
+
 .delete-icon {
-    height: 20px    ;
+    height: 20px;
 }
 
 /* Footer */

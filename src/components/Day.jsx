@@ -1,4 +1,4 @@
-import ExpenseRecord from "./ExpenseRecord";
+import Record from "./Record";
 
 function ExpenseDay(props) {
   return (
@@ -6,7 +6,7 @@ function ExpenseDay(props) {
       <div className="day">
         <div className="day-header">{props.expense.date}</div>
           <div className="records">
-            { props.expense.records.map(record => <ExpenseRecord key={record.id} record={record} />) }
+            { props.expense.records.map(record => <Record key={record.id} record={record} />) }
           </div>
       </div>  
     </>
