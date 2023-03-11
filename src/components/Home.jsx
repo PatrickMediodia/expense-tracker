@@ -23,7 +23,7 @@ function Home() {
     outflow: 0,
     net: 0
   });
-
+  
   //records state
   const [records, setRecords] = useState([]);
   useEffect(() => {
@@ -78,7 +78,13 @@ function Home() {
 
         {/* Month body*/}
         <div className="month-body">
-          { records.map((record) => (<Day expenses={record} />)) }
+          { 
+            records.length != 0 
+              ? records.map((record) => (<Day expenses={record} />)) 
+              : <div style={{ textAlign: "center", marginTop: "100px"}}>
+                  <h2>No records to show</h2>
+                </div>
+          }
         </div>
       </div>
     </>

@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from './Button';
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import CloseIcon from "../assets/closeIcon.svg";
 import 'react-datepicker/dist/react-datepicker.css';
+import { addExpenseRecord } from '../firebase/firebase-functions';
 
 const modalStyle = {
   content: {
@@ -24,9 +25,25 @@ const categories = [
   "Personal"
 ];
 
+//list of types
+const types = [
+  "Please select a type.",
+  "Inflow",
+  "Outflow"
+];
+
 function ExpenseModal({ title, modalState, modalCloseFunction }) {
-  //date picker initial date
-  const [startDate, setStartDate] = React.useState(new Date());
+  const [formData, setFormData] = useState({
+    title: "",
+    price: 0,
+    date: new Date(),
+    category: "",
+    type: ""
+  });
+
+  const addExpense = async() => {
+    await addExpenseRecord(formData);
+  };
 
   return (
       <Modal
@@ -52,32 +69,70 @@ function ExpenseModal({ title, modalState, modalCloseFunction }) {
               className="input-field" 
               name="title" 
               id="title"
+              onChange={(event) => {
+                setFormData(prevData => ({
+                  ...prevData,
+                  title: event.target.value
+                }));
+              }}
             />
             <label class="form-title">Price:</label>
             <input 
               className="input-field" 
               name="price" 
               id="price"
+              onChange={(event) => {
+                setFormData(prevData => ({
+                  ...prevData,
+                  price: parseFloat(event.target.value)
+                }));
+              }}
             />
             <label class="form-title">Date:</label>
             <DatePicker 
               className="input-field" 
-              selected={startDate} 
-              onChange={(date) => setStartDate(date)} 
+              selected={formData.date} 
+              onChange={(date) => {
+                setFormData(prevData => ({
+                  ...prevData,
+                  date: date
+                }));
+              }}
             />
             <label class="form-title">Category:</label>
-            <select className="dropdown" name="category-dropdown">
-              { 
-                categories.map(category => 
-                  <option value={category}>{category}</option>
-                ) 
-              }
+            <select 
+              className="dropdown" 
+              name="category-dropdown"
+              onChange={(event) => {
+                setFormData(prevData => ({
+                  ...prevData,
+                  category: event.target.value
+                }));
+              }}
+            >
+              { categories.map(category => <option value={category}>{category}</option>) }
+            </select>
+            <label class="form-title">Type:</label>
+            <select 
+              className="dropdown" 
+              name="category-dropdown"
+              onChange={(event) => {
+                setFormData(prevData => ({
+                  ...prevData,
+                  type: event.target.value
+                }));
+              }}
+            >
+              { types.map(type => <option value={type}>{type}</option>) }
             </select>
           </form>
-
           <div className="center-button">
             <Button 
-              method={modalCloseFunction} 
+              method={()=> {
+                addExpense();
+                modalCloseFunction();
+                alert('Expense added')
+              }}
               text="Add Expense" 
               color="#4CAF50"
             />

@@ -38,7 +38,7 @@ function ExpenseRecord(props) {
         <img 
           src={EditIcon} 
           className="edit-icon" 
-            nClick={openModalEdit}
+          onClick={openModalEdit}
           />
         <img 
           src={DeleteIcon} 

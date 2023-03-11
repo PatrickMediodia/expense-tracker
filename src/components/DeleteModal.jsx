@@ -28,6 +28,7 @@ function DeleteModal({ modalState, modalCloseFunction, userID }) {
           method={() => {
             deleteExpenseRecord(userID);
             modalCloseFunction();
+            alert('Expense deleted')
           }}
           color={"#4CAF50"} 
           text={"Yes"}

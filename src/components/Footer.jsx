@@ -3,7 +3,6 @@ function Footer() {
     <div className="footer">
       <small>© Copyright 2023, Patrick Mediodia</small>
     </div>
-    
   );
 }
 
