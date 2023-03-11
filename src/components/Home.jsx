@@ -5,7 +5,7 @@ import ExpenseModal from "./ExpenseModal";
 import AddIcon from "../assets/addIcon.svg";
 import { db } from '../firebase/firebase-config';
 import React, { useState, useEffect }from 'react';
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
@@ -33,7 +33,8 @@ function Home() {
       const q = query(
         recordsCollectionRef,
         where("date", ">=", new Date(`${year}, ${month}, 00`)),
-        where("date", "<", new Date(`${year}, ${month}, ${days}`))
+        where("date", "<", new Date(`${year}, ${month}, ${days}`)),
+        orderBy("date", "desc")
       );
       
       const data = await getDocs(q);
@@ -76,7 +77,7 @@ function Home() {
     };
     getRecords();
   }, [monthYear]);
-  
+
   // modal state
   const [modalIsOpen, setIsOpen] = useState(false);
   function openModal() { setIsOpen(true); }
