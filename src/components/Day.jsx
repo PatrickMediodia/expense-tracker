@@ -1,16 +1,16 @@
 import Record from "./Record";
 
-function ExpenseDay(props) {
+function Day(props) {
   return (
     <>
       <div className="day">
-        <div className="day-header">{props.expense.date}</div>
+        <div className="day-header">{props.expenses.date.toLocaleString(0)}</div>
           <div className="records">
-            { props.expense.records.map(record => <Record key={record.id} record={record} />) }
+            { props.expenses.expenses.map(record => <Record key={record.id} record={record} />) }
           </div>
       </div>  
     </>
   );
 }
 
-export default ExpenseDay
+export default Day

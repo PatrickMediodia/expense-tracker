@@ -1,10 +1,8 @@
-import { useState } from 'react'
-
 import './App.css'
+import "./fonts/Roboto-Medium.ttf"
+import Home from './components/Home';
 import Navbar from './components/Navbar'
 import Footer from './components/Footer';
-import Home from './components/Home';
-import "./fonts/Roboto-Medium.ttf"
 
 function App() {
   return (
@@ -13,7 +11,6 @@ function App() {
       <Home />
       <Footer />
     </div>
-
   );
 }
 

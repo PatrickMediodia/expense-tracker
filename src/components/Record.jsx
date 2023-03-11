@@ -5,28 +5,14 @@ import EditIcon from "../assets/editIcon.svg";
 import DeleteIcon from "../assets/deleteIcon.svg";
 
 function ExpenseRecord(props) {
-  //modal state
   const [deleteIsOpen, setDelete] = useState(false);
+  function openModalDelete() { setDelete(true); }
+  function closeModalDelete() { setDelete(false); }
 
-  function openModalDelete() { 
-    setDelete(true); 
-  }
-
-  function closeModalDelete() { 
-    setDelete(false); 
-  }
-
-  //modal state
   const [editIsOpen, setEdit] = useState(false);
-
-  function openModalEdit() { 
-    setEdit(true); 
-  }
-
-  function closeModalEdit() { 
-    setEdit(false); 
-  }
-
+  function openModalEdit() { setEdit(true); }
+  function closeModalEdit() { setEdit(false); }
+  
   return (
     <>
       <div className="record">

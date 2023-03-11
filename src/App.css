@@ -64,6 +64,20 @@
     margin-right:7px;
 }
 
+/* Summary */
+
+.summary {
+    margin: 15px;
+    padding: 10px 0px;
+    display: grid;
+    grid-auto-flow: column;
+    border: 1px lightgray solid;
+}
+
+.summary-item {
+    text-align: center;
+}
+
 /* Modal */
 .modal {
     padding: 5px 20px;

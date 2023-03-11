@@ -1,42 +1,125 @@
-import Month from '../components/Month';
+import Day from "./Day";
+import Summary from './Summary';
+import Record from './Record';
+import ExpenseModal from "./ExpenseModal";
+import AddIcon from "../assets/addIcon.svg";
+import { db } from '../firebase/firebase-config';
+import React, { useState, useEffect }from 'react';
+import { collection, getDocs, query, where } from "firebase/firestore";
+
+const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+
+function daysInMonth (month, year) {
+  return new Date(year, month, 0).getDate();
+}
 
 function Home() {
-  let data = {
-    "month" : "March",
-    "expenses" : [
-      {
-        date : "03/9/2023",
-        records : [ 
-          {
-            id : 3,
-            title : "Expense 3",
-            price : "100",
-            category : "Leisure",
-          },          
-          {
-            id : 2,
-            title : "Expense 2",
-            price : "300",
-            category : "School"
+  //month and year state
+  const [monthYear, setMonthYear] = useState({ 
+    month: 3, 
+    year: 2023 
+  });
+
+  //get records
+  const [records, setRecords] = useState([]);
+  const recordsCollectionRef = collection(db, 'expenses');
+
+  useEffect(() => {
+    const month = monthYear.month;
+    const year = monthYear.year;
+    const days = daysInMonth(month, year);
+
+    const getRecords = async() => {
+      const q = query(
+        recordsCollectionRef,
+        where("date", ">=", new Date(`${year}, ${month}, 00`)),
+        where("date", "<", new Date(`${year}, ${month}, ${days}`))
+      );
+      
+      const data = await getDocs(q);
+      const recordsFromFirebase = data.docs.map((doc) => {
+        const date = doc.data().date.toDate();
+        return { 
+          ...doc.data(), 
+          id: doc.id ,
+          date: `${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`
+        };
+      });
+
+      const newRecords = [];
+      recordsFromFirebase.forEach((recordFromFirebase) => {
+        for(const newRecord of newRecords) {
+          console.log(newRecord.date);
+          if (recordFromFirebase.date == newRecord.date) {
+            newRecord.expenses.push({
+              id: recordFromFirebase.id,
+              title: recordFromFirebase.title,
+              category: recordFromFirebase.category
+            });
+            return;
           }
-        ]
-      },
-      {
-        date : "03/8/2023",
-        records : [ 
-          {
-            id : 1,
-            title : "Expense 1",
-            price : "100",
-            category : "Health",
-          }
-        ]
-      }
-    ]
-  }
+        }
+
+        newRecords.push({
+          date: recordFromFirebase.date,
+          expenses: [
+            {
+              id: recordFromFirebase.id,
+              title: recordFromFirebase.title,
+              category: recordFromFirebase.category
+            }
+          ]
+        });
+      });
+
+      setRecords(newRecords);
+    };
+    getRecords();
+  }, [monthYear]);
+  
+  // modal state
+  const [modalIsOpen, setIsOpen] = useState(false);
+  function openModal() { setIsOpen(true); }
+  function closeModal() { setIsOpen(false); }
 
   return (
-    <Month month={data.month} expenses={data.expenses}/>
+    <>
+      <div className="month">
+
+        {/* Month header*/ }
+        <div className="month-header">
+          <h1 className="month-text">
+            {monthNames[monthYear.month-1]}
+          </h1>
+          <button 
+            className="add-expense-button" 
+            onClick={openModal}
+          >
+          <img src={AddIcon} className="add-icon"/>
+          <p className="add-text">Add Expense</p>
+          </button>
+        </div>
+
+        <Summary 
+          inflow={1000}
+          outflow={50}
+          net={100}
+        />
+
+        {/* Add expense modal form */}
+        <ExpenseModal 
+          title="Add Expense" 
+          modalState={modalIsOpen} 
+          modalCloseFunction={closeModal}
+        />
+
+        {/* Month body*/}
+        <div className="month-body">
+          { records.map((record) => (<Day expenses={record} />)) }
+        </div>
+
+      </div>
+    </>
   );
 }
 
