@@ -2,6 +2,8 @@ import Day from "./Day";
 import Summary from './Summary';
 import ExpenseModal from "./ExpenseModal";
 import AddIcon from "../assets/addIcon.svg";
+import LeftArrow from "../assets/leftArrow.svg";
+import RightArrow from "../assets/rightArrow.svg";
 import React, { useState, useEffect }from 'react';
 import { getExpenseRecords } from "../firebase/firebase-functions";
 
@@ -18,12 +20,42 @@ function Home() {
     year: 2023 
   });
 
+  const decrementDate = () => {
+    setMonthYear((prevState) => {
+      let newState = { ...prevState }
+
+      if(prevState.month == 1) {
+        newState.month = 12;
+        newState.year = prevState.year - 1;
+      } else {
+        newState.month = prevState.month - 1;
+      }
+
+      return newState;
+    });
+  }
+
+  const incrementDate = () => {
+    setMonthYear((prevState) => {
+      let newState = { ...prevState }
+
+      if(prevState.month == 12) {
+        newState.month = 1;
+        newState.year = prevState.year + 1;
+      } else {
+        newState.month = prevState.month + 1;
+      }
+
+      return newState;
+    });
+  }
+
   const [summary, setSummary] = useState({
     inflow: 0,
     outflow: 0,
     net: 0
   });
-  
+
   //records state
   const [records, setRecords] = useState([]);
   useEffect(() => {
@@ -48,17 +80,31 @@ function Home() {
   return (
     <>
       <div className="month">
+        
         {/* Month header*/ }
         <div className="month-header">
           <h1 className="month-text">
-            {monthNames[monthYear.month-1]}
+            <img 
+              src={LeftArrow} 
+              className="arrow-icon"
+              onClick={decrementDate}
+            />
+            {`${monthNames[monthYear.month-1]} ${monthYear.year}`}
+            <img 
+              src={RightArrow} 
+              className="arrow-icon"
+              onClick={incrementDate}
+            />
           </h1>
           <button 
             className="add-expense-button" 
             onClick={openModal}
           >
-          <img src={AddIcon} className="add-icon"/>
-          <p className="add-text">Add Expense</p>
+            <img
+              src={AddIcon} 
+              className="add-icon"
+            />
+            <p className="add-text">Add Expense</p>
           </button>
         </div>
 
