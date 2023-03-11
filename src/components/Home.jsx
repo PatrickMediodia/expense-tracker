@@ -3,7 +3,7 @@ import Summary from './Summary';
 import ExpenseModal from "./ExpenseModal";
 import AddIcon from "../assets/addIcon.svg";
 import React, { useState, useEffect }from 'react';
-import getExpenseRecords from "../firebase/firebase-functions";
+import { getExpenseRecords } from "../firebase/firebase-functions";
 
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
@@ -36,7 +36,7 @@ function Home() {
       setRecords(homeValues.newRecords);
       setSummary(homeValues.summary);
     };
-    
+
     getRecords();
   }, [monthYear]);
 

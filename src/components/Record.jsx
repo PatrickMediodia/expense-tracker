@@ -5,6 +5,9 @@ import EditIcon from "../assets/editIcon.svg";
 import DeleteIcon from "../assets/deleteIcon.svg";
 
 function ExpenseRecord(props) {
+  //user ID in this record
+  const [userID, setUserID] = useState(props.record.id);
+
   const [deleteIsOpen, setDelete] = useState(false);
   function openModalDelete() { setDelete(true); }
   function closeModalDelete() { setDelete(false); }
@@ -32,18 +35,16 @@ function ExpenseRecord(props) {
           <b>Category:&nbsp;</b> 
           {props.record.category}
         </p> 
-        <div>
-          <img 
-            src={EditIcon} 
-            className="edit-icon" 
-            onClick={openModalEdit}
+        <img 
+          src={EditIcon} 
+          className="edit-icon" 
+            nClick={openModalEdit}
           />
-          <img 
-            src={DeleteIcon} 
-            className="delete-icon" 
-            onClick={openModalDelete}
-          />
-        </div>       
+        <img 
+          src={DeleteIcon} 
+          className="delete-icon" 
+          onClick={openModalDelete}
+        />   
       </div>
       
       <ExpenseModal 
@@ -55,6 +56,7 @@ function ExpenseRecord(props) {
       <DeleteModal
         modalState={deleteIsOpen} 
         modalCloseFunction={closeModalDelete}
+        userID={userID}
       />
     </>
   );

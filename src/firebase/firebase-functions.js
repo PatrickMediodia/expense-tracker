@@ -1,5 +1,7 @@
 import { 
   collection, 
+  deleteDoc, 
+  doc, 
   getDocs, 
   orderBy, 
   query, 
@@ -7,9 +9,9 @@ import {
 } from "firebase/firestore";
 import { db } from '../firebase/firebase-config';
 
-async function getExpenseRecords(month, year, days) {
-  const recordsCollectionRef = collection(db, 'expenses');
+const recordsCollectionRef = collection(db, 'expenses');
 
+async function getExpenseRecords(month, year, days) {
   const q = query(
     recordsCollectionRef,
     where("date", ">=", new Date(`${year}, ${month}, 00`)),
@@ -78,8 +80,16 @@ async function getExpenseRecords(month, year, days) {
       ]
     });
   });
-  
+
   return homeValues;
 }
 
-export default getExpenseRecords;
+async function deleteExpenseRecord(id) {
+  const expenseDoc = doc(db, "expenses", id);
+  await deleteDoc(expenseDoc);
+}
+
+export {
+  getExpenseRecords,
+  deleteExpenseRecord
+};
