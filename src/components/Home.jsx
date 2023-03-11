@@ -18,17 +18,25 @@ function Home() {
     year: 2023 
   });
 
+  const [summary, setSummary] = useState({
+    inflow: 0,
+    outflow: 0,
+    net: 0
+  });
+
   //records state
   const [records, setRecords] = useState([]);
   useEffect(() => {
     const month = monthYear.month;
     const year = monthYear.year;
     const days = daysInMonth(month, year);
-    
+
     const getRecords = async() => {
-      const newRecords = await getExpenseRecords(month, year, days)
-      setRecords(newRecords);
+      const homeValues = await getExpenseRecords(month, year, days)
+      setRecords(homeValues.newRecords);
+      setSummary(homeValues.summary);
     };
+    
     getRecords();
   }, [monthYear]);
 
@@ -40,7 +48,6 @@ function Home() {
   return (
     <>
       <div className="month">
-
         {/* Month header*/ }
         <div className="month-header">
           <h1 className="month-text">
@@ -55,10 +62,11 @@ function Home() {
           </button>
         </div>
 
+        {/* Summary of expenses for the month */}
         <Summary 
-          inflow={1000}
-          outflow={50}
-          net={100}
+          inflow={summary.inflow}
+          outflow={summary.outflow}
+          net={summary.net}
         />
 
         {/* Add expense modal form */}
@@ -72,7 +80,6 @@ function Home() {
         <div className="month-body">
           { records.map((record) => (<Day expenses={record} />)) }
         </div>
-
       </div>
     </>
   );

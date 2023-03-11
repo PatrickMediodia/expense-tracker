@@ -17,6 +17,10 @@ function ExpenseRecord(props) {
     <>
       <div className="record">
         <p>
+          <b>Type:&nbsp;</b> 
+          {props.record.type}
+        </p>
+        <p>
           <b>Title:&nbsp;</b> 
           {props.record.title}
         </p>
@@ -27,17 +31,19 @@ function ExpenseRecord(props) {
         <p>
           <b>Category:&nbsp;</b> 
           {props.record.category}
-        </p>        
-        <img 
-          src={EditIcon} 
-          className="edit-icon" 
-          onClick={openModalEdit}
-        />
-        <img 
-          src={DeleteIcon} 
-          className="delete-icon" 
-          onClick={openModalDelete}
-        />
+        </p> 
+        <div>
+          <img 
+            src={EditIcon} 
+            className="edit-icon" 
+            onClick={openModalEdit}
+          />
+          <img 
+            src={DeleteIcon} 
+            className="delete-icon" 
+            onClick={openModalDelete}
+          />
+        </div>       
       </div>
       
       <ExpenseModal 

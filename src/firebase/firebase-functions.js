@@ -31,34 +31,55 @@ async function getExpenseRecords(month, year, days) {
     };
   });
 
-  const newRecords = [];
+  const homeValues = {
+    newRecords: [],
+    summary: {
+      inflow: 0,
+      outflow: 0,
+      net: 0
+    }
+  }
+
   recordsFromFirebase.forEach((recordFromFirebase) => {
-    //if in existing  
-    newRecords.forEach((newRecord) => {
+    //populate summary values
+    if (recordFromFirebase.type === "Inflow") {
+      homeValues.summary.inflow += recordFromFirebase.price;
+      homeValues.summary.net += recordFromFirebase.price;
+    } else if (recordFromFirebase.type === "Outflow") {
+      homeValues.summary.outflow += recordFromFirebase.price;
+      homeValues.summary.net -= recordFromFirebase.price;
+    }
+
+    //if in existing
+    for(const newRecord of homeValues.newRecords) {
       if (recordFromFirebase.date == newRecord.date) {
         newRecord.expenses.push({
           id: recordFromFirebase.id,
           title: recordFromFirebase.title,
-          category: recordFromFirebase.category
+          price: recordFromFirebase.price,
+          category: recordFromFirebase.category,
+          type: recordFromFirebase.type
         });
         return;
-      }   
-    });
+      }
+    }
 
     //if date is not yet existing
-    newRecords.push({
+    homeValues.newRecords.push({
       date: recordFromFirebase.date,
       expenses: [
         {
           id: recordFromFirebase.id,
           title: recordFromFirebase.title,
-          category: recordFromFirebase.category
+          price: recordFromFirebase.price,
+          category: recordFromFirebase.category,
+          type: recordFromFirebase.type
         }
       ]
     });
   });
-
-  return newRecords;
+  
+  return homeValues;
 }
 
 export default getExpenseRecords;
