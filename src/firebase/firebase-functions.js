@@ -31,20 +31,14 @@ async function getExpenseRecords(month, year, days) {
   );
 
   const data = await getDocs(q);
-  const recordsFromFirebase = data.docs.map((doc) => {
+  data.docs.map((doc) => {
     const date = doc.data().date.toDate();
-    const month = date.getMonth()+1;
-    const day = date.getDate();
-    const year = date.getFullYear();
-    
     return { 
       ...doc.data(), 
       id: doc.id ,
-      date: `${month}/${day}/${year}`
+      date: `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
     };
-  });
-
-  recordsFromFirebase.forEach((recordFromFirebase) => {
+  }).forEach((recordFromFirebase) => {
     //populate summary values
     if (recordFromFirebase.type === "Inflow") {
       homeValues.summary.inflow += recordFromFirebase.price;
@@ -54,16 +48,18 @@ async function getExpenseRecords(month, year, days) {
       homeValues.summary.net -= recordFromFirebase.price;
     }
 
+    const expenseObject = {
+      id: recordFromFirebase.id,
+      title: recordFromFirebase.title,
+      price: recordFromFirebase.price,
+      category: recordFromFirebase.category,
+      type: recordFromFirebase.type
+    }
+
     //if in existing
     for(const newRecord of homeValues.newRecords) {
       if (recordFromFirebase.date == newRecord.date) {
-        newRecord.expenses.push({
-          id: recordFromFirebase.id,
-          title: recordFromFirebase.title,
-          price: recordFromFirebase.price,
-          category: recordFromFirebase.category,
-          type: recordFromFirebase.type
-        });
+        newRecord.expenses.push(expenseObject);
         return;
       }
     }
@@ -71,15 +67,7 @@ async function getExpenseRecords(month, year, days) {
     //if date is not yet existing
     homeValues.newRecords.push({
       date: recordFromFirebase.date,
-      expenses: [
-        {
-          id: recordFromFirebase.id,
-          title: recordFromFirebase.title,
-          price: recordFromFirebase.price,
-          category: recordFromFirebase.category,
-          type: recordFromFirebase.type
-        }
-      ]
+      expenses: [ expenseObject ]
     });
   });
 
