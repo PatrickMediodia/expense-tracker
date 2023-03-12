@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useEffect, useState} from 'react'
 import DeleteModal from "./DeleteModal";
 import ExpenseModal from './ExpenseModal';
 import EditIcon from "../assets/editIcon.svg";
@@ -24,7 +24,10 @@ function ExpenseRecord(props) {
   function closeModalDelete() { setDelete(false); }
 
   const [editIsOpen, setEdit] = useState(false);
-  function openModalEdit() { setEdit(true); }
+  function openModalEdit() { 
+    setFormState(defaultFormState);
+    setEdit(true); 
+  }
   function closeModalEdit() { 
     setEdit(false); 
     setFormState(defaultFormState);
@@ -67,6 +70,7 @@ function ExpenseRecord(props) {
         modalCloseFunction={closeModalEdit}
         postFunction={updateExpenseRecord}
         formState={formState}
+        message={"Expense Edited"}
         id={props.record.id}
       />
 

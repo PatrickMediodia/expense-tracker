@@ -145,6 +145,7 @@ function Home() {
           modalCloseFunction={closeModal}
           postFunction={addExpenseRecord}
           formState={formState}
+          message={"Expense Added"}
         />
 
         {/* Month body*/}

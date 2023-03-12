@@ -31,7 +31,15 @@ const types = [
   "Outflow"
 ];
 
-function ExpenseModal({ title, modalState, modalCloseFunction, formState, postFunction, id }) {
+function ExpenseModal({ 
+  title, 
+  modalState, 
+  modalCloseFunction, 
+  formState, 
+  postFunction, 
+  id, 
+  message 
+}) {
   const [formData, setFormData] = useState(() => formState);
   useEffect(()=> {
     setFormData(formState);
@@ -42,8 +50,10 @@ function ExpenseModal({ title, modalState, modalCloseFunction, formState, postFu
   };
   
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prevState => ({ ...prevState, [name]: value }))
+    setFormData(prevState => ({ 
+      ...prevState, 
+      [e.target.name]: e.target.value 
+    }));
   }
 
   return (
@@ -81,18 +91,29 @@ function ExpenseModal({ title, modalState, modalCloseFunction, formState, postFu
               id="price"
               type="number"
               value={formData.price}
-              onChange={handleInputChange}
+              onChange={(event) => {
+                setFormData(prevData => ({
+                  ...prevData,
+                  price: parseFloat(event.target.value)
+                }));
+              }}
             />
             <label className="form-title">Date:</label>
             <DatePicker 
+              name="date"
               className="input-field" 
               selected={formData.date}
-              onChange={handleInputChange}
+              onChange={(date) => { 
+                setFormData(prevData => ({
+                  ...prevData,
+                  date: date
+                }));
+              }}
             />
             <label className="form-title">Category:</label>
             <select 
               className="dropdown" 
-              name="category-dropdown"
+              name="category"
               value={formData.category}
               onChange={handleInputChange}
             >
@@ -101,7 +122,7 @@ function ExpenseModal({ title, modalState, modalCloseFunction, formState, postFu
             <label className="form-title">Type:</label>
             <select 
               className="dropdown" 
-              name="category-dropdown"
+              name="type"
               value={formData.type}
               onChange={handleInputChange}
             >
@@ -113,7 +134,7 @@ function ExpenseModal({ title, modalState, modalCloseFunction, formState, postFu
               method={()=> {
                 functionToExecute();
                 modalCloseFunction();
-                alert('Expense added')
+                alert(message)
               }}
               text={title}
               color="#4CAF50"
