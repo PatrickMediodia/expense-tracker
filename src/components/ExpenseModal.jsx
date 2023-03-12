@@ -31,14 +31,6 @@ const types = [
   "Outflow"
 ];
 
-const defaultFormState = {
-  title: null,
-  price: null,
-  date: new Date(),
-  category: null,
-  type: null
-};
-
 function ExpenseModal({ title, modalState, modalCloseFunction, formState, postFunction, id }) {
   const [formData, setFormData] = useState(() => formState);
   useEffect(()=> {
@@ -48,6 +40,11 @@ function ExpenseModal({ title, modalState, modalCloseFunction, formState, postFu
   const functionToExecute = async() => {
     await postFunction(id, formData);
   };
+  
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prevState => ({ ...prevState, [name]: value }))
+  }
 
   return (
       <Modal
@@ -75,12 +72,7 @@ function ExpenseModal({ title, modalState, modalCloseFunction, formState, postFu
               name="title" 
               id="title"
               value={formData.title}
-              onChange={(event) => {
-                setFormData(prevData => ({
-                  ...prevData,
-                  title: event.target.value
-                }));
-              }}
+              onChange={handleInputChange}
             />
             <label className="form-title">Price:</label>
             <input 
@@ -89,35 +81,20 @@ function ExpenseModal({ title, modalState, modalCloseFunction, formState, postFu
               id="price"
               type="number"
               value={formData.price}
-              onChange={(event) => {
-                setFormData(prevData => ({
-                  ...prevData,
-                  price: parseFloat(event.target.value)
-                }));
-              }}
+              onChange={handleInputChange}
             />
             <label className="form-title">Date:</label>
             <DatePicker 
               className="input-field" 
               selected={formData.date}
-              onChange={(date) => { 
-                setFormData(prevData => ({
-                  ...prevData,
-                  date: date
-                }));
-              }}
+              onChange={handleInputChange}
             />
             <label className="form-title">Category:</label>
             <select 
               className="dropdown" 
               name="category-dropdown"
               value={formData.category}
-              onChange={(event) => {
-                setFormData(prevData => ({
-                  ...prevData,
-                  category: event.target.value
-                }));
-              }}
+              onChange={handleInputChange}
             >
               { categories.map(category => <option value={category}>{category}</option>) }
             </select>
@@ -126,12 +103,7 @@ function ExpenseModal({ title, modalState, modalCloseFunction, formState, postFu
               className="dropdown" 
               name="category-dropdown"
               value={formData.type}
-              onChange={(event) => {
-                setFormData(prevData => ({
-                  ...prevData,
-                  type: event.target.value
-                }));
-              }}
+              onChange={handleInputChange}
             >
               { types.map(type => <option value={type}>{type}</option>) }
             </select>

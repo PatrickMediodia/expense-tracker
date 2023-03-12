@@ -2,11 +2,6 @@ import {
   collection, 
   deleteDoc, 
   doc, 
-  getDocs, 
-  orderBy, 
-  query, 
-  where,
-  onSnapshot,
   addDoc,
   updateDoc
 } from "firebase/firestore";
@@ -44,7 +39,8 @@ function getExpenseRecords(querySnapshot) {
       title: expense.title,
       price: expense.price,
       category: expense.category,
-      type: expense.type
+      type: expense.type,
+      date: date
     }
 
     //if in existing

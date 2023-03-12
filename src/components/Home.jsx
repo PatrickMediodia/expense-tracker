@@ -16,12 +16,12 @@ function daysInMonth (month, year) {
 }
 
 function Home() {
-  //month and year state
+  const currentDate = new Date();
   const [monthYear, setMonthYear] = useState({ 
-    month: 3, 
-    year: 2023 
+    month: currentDate.getMonth(), 
+    year: currentDate.getFullYear() 
   });
-
+  
   const decrementDate = () => {
     setMonthYear((prevState) => {
       let newState = { ...prevState }
@@ -69,8 +69,8 @@ function Home() {
 
     const q = query(
       recordsCollectionRef,
-      where("date", ">=", new Date(`${year}, ${month}, 00`)),
-      where("date", "<", new Date(`${year}, ${month}, ${days}`)),
+      where("date", ">=", new Date(year, month, '00')),
+      where("date", "<", new Date(year, month, days)),
       orderBy("date", "desc")
     );
 
@@ -112,7 +112,7 @@ function Home() {
               className="arrow-icon"
               onClick={decrementDate}
             />
-            {`${monthNames[monthYear.month-1]} ${monthYear.year}`}
+            {`${monthNames[monthYear.month]} ${monthYear.year}`}
             <img 
               src={RightArrow} 
               className="arrow-icon"
