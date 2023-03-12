@@ -5,7 +5,7 @@ import AddIcon from "../assets/addIcon.svg";
 import LeftArrow from "../assets/leftArrow.svg";
 import RightArrow from "../assets/rightArrow.svg";
 import React, { useState, useEffect }from 'react';
-import { getExpenseRecords } from "../firebase/firebase-functions";
+import { getExpenseRecords, addExpenseRecord } from "../firebase/firebase-functions";
 import { onSnapshot, collection, query, where, orderBy, doc } from "firebase/firestore";
 import { db } from '../firebase/firebase-config';
 
@@ -79,22 +79,26 @@ function Home() {
       setRecords(homeValues.newRecords);
       setSummary(homeValues.summary);     
     });
-    
-    /*
-    const getRecords = async() => {
-      const homeValues = await getExpenseRecords(month, year, days)
-      setRecords(homeValues.newRecords);
-      setSummary(homeValues.summary);
-    };
-    getRecords();
-    */
 
   }, [monthYear, records]);
   
   // modal state
   const [modalIsOpen, setIsOpen] = useState(false);
   function openModal() { setIsOpen(true); }
-  function closeModal() { setIsOpen(false); }
+  function closeModal() { 
+    setIsOpen(false); 
+    setFormState(defaultFormState); 
+  }
+  
+  const defaultFormState = {
+    title: null,
+    price: null,
+    date: new Date(),
+    category: null,
+    type: null
+  };
+
+  const [formState, setFormState] = useState(defaultFormState);
 
   return (
     <>
@@ -139,6 +143,8 @@ function Home() {
           title="Add Expense" 
           modalState={modalIsOpen} 
           modalCloseFunction={closeModal}
+          postFunction={addExpenseRecord}
+          formState={formState}
         />
 
         {/* Month body*/}

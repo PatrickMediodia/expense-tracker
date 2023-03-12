@@ -3,10 +3,21 @@ import DeleteModal from "./DeleteModal";
 import ExpenseModal from './ExpenseModal';
 import EditIcon from "../assets/editIcon.svg";
 import DeleteIcon from "../assets/deleteIcon.svg";
+import { updateExpenseRecord } from '../firebase/firebase-functions';
 
 function ExpenseRecord(props) {
   //user ID in this record
   const [expenseID, setExpenseID] = useState(props.record.id);
+
+  const defaultFormState = {
+    title: props.record.title,
+    price: props.record.price,
+    date: props.record.date,
+    category: props.record.category,
+    type: props.record.type
+  };
+  
+  const [formState, setFormState] = useState(defaultFormState);
 
   const [deleteIsOpen, setDelete] = useState(false);
   function openModalDelete() { setDelete(true); }
@@ -14,7 +25,10 @@ function ExpenseRecord(props) {
 
   const [editIsOpen, setEdit] = useState(false);
   function openModalEdit() { setEdit(true); }
-  function closeModalEdit() { setEdit(false); }
+  function closeModalEdit() { 
+    setEdit(false); 
+    setFormState(defaultFormState);
+  }
   
   return (
     <>
@@ -51,6 +65,9 @@ function ExpenseRecord(props) {
         title="Edit Expense" 
         modalState={editIsOpen} 
         modalCloseFunction={closeModalEdit}
+        postFunction={updateExpenseRecord}
+        formState={formState}
+        id={props.record.id}
       />
 
       <DeleteModal

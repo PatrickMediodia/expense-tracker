@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from './Button';
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import CloseIcon from "../assets/closeIcon.svg";
 import 'react-datepicker/dist/react-datepicker.css';
-import { addExpenseRecord } from '../firebase/firebase-functions';
 
 const modalStyle = {
   content: {
@@ -32,17 +31,22 @@ const types = [
   "Outflow"
 ];
 
-function ExpenseModal({ title, modalState, modalCloseFunction }) {
-  const [formData, setFormData] = useState({
-    title: "",
-    price: 0,
-    date: new Date(),
-    category: "",
-    type: ""
-  });
+const defaultFormState = {
+  title: null,
+  price: null,
+  date: new Date(),
+  category: null,
+  type: null
+};
 
-  const addExpense = async() => {
-    await addExpenseRecord(formData);
+function ExpenseModal({ title, modalState, modalCloseFunction, formState, postFunction, id }) {
+  const [formData, setFormData] = useState(() => formState);
+  useEffect(()=> {
+    setFormData(formState);
+  }, [formState]);
+
+  const functionToExecute = async() => {
+    await postFunction(id, formData);
   };
 
   return (
@@ -51,8 +55,9 @@ function ExpenseModal({ title, modalState, modalCloseFunction }) {
         onRequestClose={modalCloseFunction}
         style={modalStyle}
         contentLabel="Example Modal"
+        appElement={document.getElementById('root')}
       >
-        <div class="modal">
+        <div className="modal">
           <div className='modal-header'>
             <h2>{title}</h2>
             <img 
@@ -69,6 +74,7 @@ function ExpenseModal({ title, modalState, modalCloseFunction }) {
               className="input-field" 
               name="title" 
               id="title"
+              value={formData.title}
               onChange={(event) => {
                 setFormData(prevData => ({
                   ...prevData,
@@ -76,11 +82,13 @@ function ExpenseModal({ title, modalState, modalCloseFunction }) {
                 }));
               }}
             />
-            <label class="form-title">Price:</label>
+            <label className="form-title">Price:</label>
             <input 
               className="input-field" 
               name="price" 
               id="price"
+              type="number"
+              value={formData.price}
               onChange={(event) => {
                 setFormData(prevData => ({
                   ...prevData,
@@ -88,21 +96,22 @@ function ExpenseModal({ title, modalState, modalCloseFunction }) {
                 }));
               }}
             />
-            <label class="form-title">Date:</label>
+            <label className="form-title">Date:</label>
             <DatePicker 
               className="input-field" 
-              selected={formData.date} 
-              onChange={(date) => {
+              selected={formData.date}
+              onChange={(date) => { 
                 setFormData(prevData => ({
                   ...prevData,
                   date: date
                 }));
               }}
             />
-            <label class="form-title">Category:</label>
+            <label className="form-title">Category:</label>
             <select 
               className="dropdown" 
               name="category-dropdown"
+              value={formData.category}
               onChange={(event) => {
                 setFormData(prevData => ({
                   ...prevData,
@@ -112,10 +121,11 @@ function ExpenseModal({ title, modalState, modalCloseFunction }) {
             >
               { categories.map(category => <option value={category}>{category}</option>) }
             </select>
-            <label class="form-title">Type:</label>
+            <label className="form-title">Type:</label>
             <select 
               className="dropdown" 
               name="category-dropdown"
+              value={formData.type}
               onChange={(event) => {
                 setFormData(prevData => ({
                   ...prevData,
@@ -129,11 +139,11 @@ function ExpenseModal({ title, modalState, modalCloseFunction }) {
           <div className="center-button">
             <Button 
               method={()=> {
-                addExpense();
+                functionToExecute();
                 modalCloseFunction();
                 alert('Expense added')
               }}
-              text="Add Expense" 
+              text={title}
               color="#4CAF50"
             />
           </div>

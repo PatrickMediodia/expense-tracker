@@ -21,6 +21,7 @@ function DeleteModal({ modalState, modalCloseFunction, expenseID }) {
       onRequestClose={modalCloseFunction}
       style={modalStyle}
       contentLabel="Delete Modal"
+      appElement={document.getElementById('root`')}
     >
       <h4>Do you want to delete this record?</h4>
       <div className="center-button">
