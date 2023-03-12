@@ -6,6 +6,8 @@ import LeftArrow from "../assets/leftArrow.svg";
 import RightArrow from "../assets/rightArrow.svg";
 import React, { useState, useEffect }from 'react';
 import { getExpenseRecords } from "../firebase/firebase-functions";
+import { onSnapshot, collection, query, where, orderBy, doc } from "firebase/firestore";
+import { db } from '../firebase/firebase-config';
 
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 
@@ -63,15 +65,32 @@ function Home() {
     const year = monthYear.year;
     const days = daysInMonth(month, year);
 
+    const recordsCollectionRef = collection(db, 'expenses');
+
+    const q = query(
+      recordsCollectionRef,
+      where("date", ">=", new Date(`${year}, ${month}, 00`)),
+      where("date", "<", new Date(`${year}, ${month}, ${days}`)),
+      orderBy("date", "desc")
+    );
+
+    onSnapshot(q, (querySnapshot) => {
+      const homeValues = getExpenseRecords(querySnapshot)
+      setRecords(homeValues.newRecords);
+      setSummary(homeValues.summary);     
+    });
+    
+    /*
     const getRecords = async() => {
       const homeValues = await getExpenseRecords(month, year, days)
       setRecords(homeValues.newRecords);
       setSummary(homeValues.summary);
     };
-
     getRecords();
-  }, [monthYear]);
+    */
 
+  }, [monthYear, records]);
+  
   // modal state
   const [modalIsOpen, setIsOpen] = useState(false);
   function openModal() { setIsOpen(true); }

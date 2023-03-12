@@ -14,7 +14,7 @@ const modalStyle = {
   },
 };
 
-function DeleteModal({ modalState, modalCloseFunction, userID }) {
+function DeleteModal({ modalState, modalCloseFunction, expenseID }) {
   return(
     <Modal
       isOpen={modalState}
@@ -26,7 +26,7 @@ function DeleteModal({ modalState, modalCloseFunction, userID }) {
       <div className="center-button">
         <Button 
           method={() => {
-            deleteExpenseRecord(userID);
+            deleteExpenseRecord(expenseID);
             modalCloseFunction();
             alert('Expense deleted')
           }}

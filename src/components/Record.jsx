@@ -6,7 +6,7 @@ import DeleteIcon from "../assets/deleteIcon.svg";
 
 function ExpenseRecord(props) {
   //user ID in this record
-  const [userID, setUserID] = useState(props.record.id);
+  const [expenseID, setExpenseID] = useState(props.record.id);
 
   const [deleteIsOpen, setDelete] = useState(false);
   function openModalDelete() { setDelete(true); }
@@ -56,7 +56,7 @@ function ExpenseRecord(props) {
       <DeleteModal
         modalState={deleteIsOpen} 
         modalCloseFunction={closeModalDelete}
-        userID={userID}
+        expenseID={expenseID}
       />
     </>
   );
