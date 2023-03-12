@@ -29,36 +29,34 @@ async function getExpenseRecords(month, year, days) {
     where("date", "<", new Date(`${year}, ${month}, ${days}`)),
     orderBy("date", "desc")
   );
-
+  
   const data = await getDocs(q);
-  data.docs.map((doc) => {
-    const date = doc.data().date.toDate();
-    return { 
-      ...doc.data(), 
-      id: doc.id ,
-      date: `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
-    };
-  }).forEach((recordFromFirebase) => {
+  data.docs.forEach((doc) => {
+    const expense = doc.data();
+    
     //populate summary values
-    if (recordFromFirebase.type === "Inflow") {
-      homeValues.summary.inflow += recordFromFirebase.price;
-      homeValues.summary.net += recordFromFirebase.price;
-    } else if (recordFromFirebase.type === "Outflow") {
-      homeValues.summary.outflow += recordFromFirebase.price;
-      homeValues.summary.net -= recordFromFirebase.price;
+    if (expense.type === "Inflow") {
+      homeValues.summary.inflow += expense.price;
+      homeValues.summary.net += expense.price;
+    } else if (expense.type === "Outflow") {
+      homeValues.summary.outflow += expense.price;
+      homeValues.summary.net -= expense.price;
     }
+  
+    const date = expense.date.toDate();
+    const dateString = `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`;
 
     const expenseObject = {
-      id: recordFromFirebase.id,
-      title: recordFromFirebase.title,
-      price: recordFromFirebase.price,
-      category: recordFromFirebase.category,
-      type: recordFromFirebase.type
+      id: expense.id,
+      title: expense.title,
+      price: expense.price,
+      category: expense.category,
+      type: expense.type
     }
-
+    
     //if in existing
     for(const newRecord of homeValues.newRecords) {
-      if (recordFromFirebase.date == newRecord.date) {
+      if (dateString == newRecord.date) {
         newRecord.expenses.push(expenseObject);
         return;
       }
@@ -66,7 +64,7 @@ async function getExpenseRecords(month, year, days) {
 
     //if date is not yet existing
     homeValues.newRecords.push({
-      date: recordFromFirebase.date,
+      date: dateString,
       expenses: [ expenseObject ]
     });
   });
