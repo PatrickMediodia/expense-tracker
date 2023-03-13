@@ -18,7 +18,8 @@ function getExpenseRecords(querySnapshot) {
       net: 0
     }
   }
-
+  
+  let currentDate = null;
   querySnapshot.forEach((doc) => {
     const expense = doc.data();
 
@@ -33,7 +34,7 @@ function getExpenseRecords(querySnapshot) {
 
     const date = expense.date.toDate();
     const dateString = `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`;
-
+    
     const expenseObject = {
       id: doc.id,
       title: expense.title,
@@ -43,20 +44,27 @@ function getExpenseRecords(querySnapshot) {
       date: date
     }
 
-    //if in existing
-    for(const newRecord of homeValues.newRecords) {
-      if (dateString == newRecord.date) {
-        newRecord.expenses.push(expenseObject);
-        return;
+    // create new date object
+    if (currentDate === null) {
+      console.log('null date');
+      currentDate = {
+        date: dateString,
+        expenses: [ expenseObject ]
       }
     }
-    
-    //if date is not yet existing
-    homeValues.newRecords.push({
-      date: dateString,
-      expenses: [ expenseObject ]
-    });   
+    // if same as current date 
+    else if (currentDate.date === dateString) {
+      console.log('same date');
+      currentDate.expenses.push(expenseObject);
+    }
+    //if different from current date
+    else {
+      console.log('different date');
+      homeValues.newRecords.push(currentDate);
+      currentDate = null;
+    }
   });
+  homeValues.newRecords.push(currentDate);
 
   return homeValues;
 }

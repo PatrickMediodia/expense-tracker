@@ -80,7 +80,7 @@ function Home() {
       setSummary(homeValues.summary);     
     });
 
-  }, [monthYear, records]);
+  }, [monthYear]);
   
   // modal state
   const [modalIsOpen, setIsOpen] = useState(false);
