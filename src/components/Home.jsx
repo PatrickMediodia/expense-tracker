@@ -81,7 +81,7 @@ function Home() {
     });
 
   }, [monthYear]);
-  
+
   // modal state
   const [modalIsOpen, setIsOpen] = useState(false);
   function openModal() { setIsOpen(true); }
