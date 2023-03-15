@@ -21,7 +21,29 @@ function Home() {
     month: currentDate.getMonth(), 
     year: currentDate.getFullYear() 
   });
+
+  const monthYearDropdownHandler = (e) => {
+    setMonthYear(prevState => ({
+      ...prevState,
+      [e.target.name] : e.target.value,
+    }))
+  }
   
+  const generateYearDropdown = () => {
+    const currentYear = new Date().getFullYear();
+
+    let yearArray = []
+    for (let year = currentYear-5; year <= currentYear; year++) {
+      yearArray.push(year);
+    }
+
+    return yearArray.map((year) => {
+      return year === monthYear.year 
+        ? <option value={year} selected>{year}</option>
+        : <option value={year}>{year}</option>
+    });
+  }
+
   const decrementDate = () => {
     setMonthYear((prevState) => {
       let newState = { ...prevState }
@@ -106,19 +128,31 @@ function Home() {
         
         {/* Month header*/ }
         <div className="month-header">
-          <h1 className="month-text">
+          <div className="month-text">
             <img 
               src={LeftArrow} 
               className="arrow-icon"
               onClick={decrementDate}
             />
-            {`${monthNames[monthYear.month]} ${monthYear.year}`}
-            <img 
+              <select id="month" name="month" onChange={monthYearDropdownHandler}>
+                {   
+                  monthNames.map((month, index) => {
+                    return month == monthNames[monthYear.month] 
+                      ? <option value={index} selected>{month}</option>
+                      : <option value={index}>{month}</option>
+                  })
+                }
+              </select>
+              &nbsp;
+              <select id="year" name="year" onChange={monthYearDropdownHandler}>
+                { generateYearDropdown() }
+              </select>
+              <img 
               src={RightArrow} 
               className="arrow-icon"
               onClick={incrementDate}
             />
-          </h1>
+            </div>
           <button 
             className="add-expense-button" 
             onClick={openModal}

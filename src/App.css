@@ -39,14 +39,33 @@
     max-width: 1140px;
 }
 
+.month-text {
+    display: flex;
+    margin-right: auto;
+}
+
+
+.month-text select {
+    border: none;
+    outline: none;
+    padding: 0px;
+    scroll-behavior: smooth;
+    font-size: large;
+
+    /* Remove arrow */
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+/* Remove arrow */
+.month-text select::-ms-expand {
+    display: none;
+}
+
 .month-header {
     display: flex;
     padding: 15px;
     align-items: center;
-}
-
-.month-text {
-    margin-right: auto;
 }
 
 .add-expense-button {
@@ -66,7 +85,7 @@
 
 .arrow-icon {
     height: 20px;
-    margin: 0px 15px;
+    margin: 10px 15px;
 }
 
 /* Summary */
